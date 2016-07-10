@@ -14,6 +14,7 @@ public interface SeckillDao {
       * @param seckillId
      * @param killTime
      * @return
+     * 返回库存的数量
      */
     int reduceNumber(long seckillId,Date killTime);
 
