@@ -1,11 +1,15 @@
 package org.seckill.dao;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.entity.Seckill;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+
+import java.util.List;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -24,16 +28,14 @@ public class SeckillDaoTest {
     private SeckillDao seckillDao;
 
 
-    @org.junit.Test
+    @Test
     public void reduceNumber() throws Exception {
-        long id = 1;
-        Seckill seckill = seckillDao.queryById(id);
-        System.out.println(seckill.getName());
-        System.out.println(seckill);
+        int number = seckillDao.reduceNumber(3L,new Date());
+        System.out.println(number==1);
     }
 
     // 单元测试模拟
-    @org.junit.Test
+    @Test
     public void queryById() throws Exception {
         long id = 1;
         Seckill seckill = seckillDao.queryById(id);
@@ -41,9 +43,10 @@ public class SeckillDaoTest {
         System.out.println(seckill);
     }
 
-    @org.junit.Test
+    @Test
     public void queryAll() throws Exception {
-
+        List<Seckill> list = seckillDao.queryAll(0,10);
+        System.out.println(list.toString());
     }
 
 }
