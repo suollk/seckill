@@ -5,5 +5,23 @@
          version="3.1"
          metadata-complete="true">
     <!--  servlet  使用maven创建的项目需要修改我们的web-app版本   原版本为2.3  当前修改为3.1-->
+    <!--springmvc中央控制器DisPATCHERsERVLET-->
+    <servlet>
+        <servlet-name>seckill-dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!--配置springmvc需要配置的文件-->
+        <!--已经配置了spring-dao.xml.spring-service.xml,spring-web.xml-->
+        <!--顺序:Mybatis->spring->springmvc-->
+        <init-param>
+            <param-name>contextConfigLoction</param-name>
+            <param-value>classpath:spring/spring-*.xml</param-value>
+        </init-param>
+    </servlet>
 
+     <!--拦截请求的标志-->
+    <servlet-mapping>
+        <servlet-name>seckill-dispatcher</servlet-name>
+        <!--默认匹配所有的请求-->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -30,7 +30,7 @@ public class SeckillDaoTest {
 
     @Test
     public void reduceNumber() throws Exception {
-        int number = seckillDao.reduceNumber(3L,new Date());
+        int number = seckillDao.reduceNumber(2L,new Date());
         System.out.println(number==1);
     }
 

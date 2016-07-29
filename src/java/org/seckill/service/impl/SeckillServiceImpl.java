@@ -115,7 +115,7 @@ public class SeckillServiceImpl implements SeckillService {
      */
     public SeckillExcution executeSeckill(long seckillId, long userPhone, String md5) throws SeckillExpection, RepeatKillException, SeckillCloseException {
         //判断MD5是否正确
-        if(md5 == null || md5.equals(getMD5(seckillId))){
+        if(md5 == null || !md5.equals(getMD5(seckillId))){
             throw new SeckillExpection("seckill data rewrite");
         }
         Date nowTime = new Date();
