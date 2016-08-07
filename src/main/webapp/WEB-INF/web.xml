@@ -9,13 +9,12 @@
     <servlet>
         <servlet-name>seckill-dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <!--配置springmvc需要配置的文件-->
-        <!--已经配置了spring-dao.xml.spring-service.xml,spring-web.xml-->
-        <!--顺序:Mybatis->spring->springmvc-->
+        <!--dispatcherServlet对应的上下文，默认位置是/WEB-INF/$servlet-name$-servlet.xml-->
         <init-param>
-            <param-name>contextConfigLoction</param-name>
+            <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring/spring-*.xml</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
      <!--拦截请求的标志-->

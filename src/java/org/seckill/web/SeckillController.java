@@ -31,7 +31,7 @@ public class SeckillController {
     @Autowired
     private SeckillService seckillService;
 
-    @RequestMapping(name = "/list",method = RequestMethod.GET)
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
     public  String list(Model model){
         //list.jsp + model =ModelAndView
         List<Seckill> list = seckillService.getSeckillList();
@@ -43,23 +43,21 @@ public class SeckillController {
     }
 
 
-    @RequestMapping(name = "/{seckillId}/detail",method = RequestMethod.GET)
+    @RequestMapping(value = "/{seckillId}/detail",method = RequestMethod.GET)
     public String detail(@PathVariable("seckillId") Long seckillId, Model model){
-        if(seckillId == null){
+        if(seckillId==null){
             return "redirect:/seckill/list";
         }
-
-        Seckill seckill = seckillService.getById(seckillId);
-        if(seckill == null){
+        Seckill seckillById = seckillService.getById(seckillId);
+        if(seckillById==null){
             return "forward:/seckill/list";
         }
-
-        model.addAttribute("seckill",seckill);
-
+        logger.info("detail");
+        model.addAttribute("seckill",seckillById);
         return "detail";
     }
     // ajax json
-    @RequestMapping(name = "/{seckillId}/exposer",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/{seckillId}/exposer",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public SeckillResult<Exposer> exposer(@PathVariable("seckillId") Long seckillId){
         SeckillResult<Exposer> result;
@@ -73,7 +71,7 @@ public class SeckillController {
         return result;
     }
     //两个url参数  一个cookie带入
-    @RequestMapping(name = "/{seckillId}/{md5}/execution",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/{seckillId}/{md5}/execution",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public SeckillResult<SeckillExcution> excute(@PathVariable("seckillId") Long seckillId,
                                                  @PathVariable("md5") String md5,
@@ -104,6 +102,7 @@ public class SeckillController {
     }
 
     @RequestMapping(value = "/time/now",method = RequestMethod.GET)
+    @ResponseBody
     public SeckillResult<Long>  time(){
         Date now = new Date();
         return  new SeckillResult<Long>(true,now.toString());
