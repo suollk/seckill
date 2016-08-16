@@ -1,5 +1,8 @@
 package org.seckill.service.impl;
 
+import com.sun.javafx.collections.MappingChange;
+import org.apache.commons.collections.MapUtils;
+import org.apache.ibatis.executor.ExecutorException;
 import org.seckill.dao.SeckillDao;
 import org.seckill.dao.SuccessKilledDao;
 import org.seckill.dao.cache.RedisDao;
@@ -19,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by suollk on 2016/7/19.
@@ -162,6 +167,38 @@ public class SeckillServiceImpl implements SeckillService {
             logger.error(e.getMessage(),e);
             //所有编译器的异常转化为运行期异常
             throw new SeckillExpection("seckill inner error"+e.getMessage());
+        }
+    }
+
+
+    public SeckillExcution executeSeckillPro(long seckillId, long userPhone, String md5){
+        //判断MD5是否正确
+        if(md5 == null || !md5.equals(getMD5(seckillId))){
+            return new SeckillExcution(seckillId,SeckillEnum.REWRITE);
+        }
+        Date nowTime = new Date();
+
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("seckillId",seckillId);
+        map.put("phone",userPhone);
+        map.put("killTime",nowTime);
+        map.put("result",null);
+        //执行存储过程
+
+        try{
+            successKilledDao.killByProcedure(map);
+            //获取result  并且赋值默认值
+            int result = MapUtils.getInteger(map,"result",-2);
+
+            if(result == 1){
+                SuccessKilld successKilld = successKilledDao.queryByIdWithSeckill(seckillId,userPhone);
+                return new SeckillExcution(seckillId, SeckillEnum.SUCCESS,successKilld);
+            }else{
+                return new SeckillExcution(seckillId, SeckillEnum.stateof(result));
+            }
+        }catch(ExecutorException e){
+            logger.error(e.getMessage(),e);
+            return new SeckillExcution(seckillId,SeckillEnum.INNERERROT);
         }
     }
 }

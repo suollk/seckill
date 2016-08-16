@@ -64,6 +64,21 @@ public class SeckillServiceTest {
         logger.info("url={}",seckillExcution);
     }
 
+    @Test
+    public void executeSeckillPro() throws Exception {
+        Date nowTime = new Date();
+        long id = 1;
+        Exposer exposer = seckillService.exportSeckillUrl(id);
+        logger.info("Date={}",nowTime);
+        logger.info("exposer={}",exposer);
+
+        SeckillExcution seckillExcution = seckillService.executeSeckillPro(id,13564468719L,exposer.getMd5());
+
+        logger.info("url={}",seckillExcution);
+    }
+
+
+
 //    20:49:32.814 [main] DEBUG o.m.s.t.SpringManagedTransaction - JDBC Connection [com.mchange.v2.c3p0.impl.NewProxyConnection@46271dd6] will not be managed by Spring
 //    20:49:32.839 [main] DEBUG org.seckill.dao.SeckillDao.queryById - ==>  Preparing: select seckill_id as seckillId,name,number,start_time,end_time,create_time from seckill where seckill_id = ?;
 //    20:49:32.861 [main] DEBUG org.seckill.dao.SeckillDao.queryById - ==> Parameters: 4(Long)
