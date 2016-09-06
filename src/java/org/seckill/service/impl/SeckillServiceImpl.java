@@ -38,8 +38,10 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Autowired
     private SeckillDao seckillDao;
+
     @Autowired
     private SuccessKilledDao successKilledDao;
+
     @Autowired
     private RedisDao redisDao;
 

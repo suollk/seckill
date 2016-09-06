@@ -56,8 +56,6 @@ public class SeckillServiceTest {
         Exposer exposer = seckillService.exportSeckillUrl(id);
         logger.info("Date={}",nowTime);
         logger.info("exposer={}",exposer);
-        // now   1469365114167      1469365114167
-        // start=1469364572000, end=1469364572000
 
         SeckillExcution seckillExcution = seckillService.executeSeckill(id,13562268719L,exposer.getMd5());
 
